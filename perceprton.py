@@ -35,26 +35,35 @@ def perceptron(data):
         TestResult=data[index][-1:]
     #print(result)
         result=productsum(inputLayer,weight)+b
-        b=trainThreshold(TestResult,346,result,b,c,f)
-    print (b)
+        #print(result)
+        b,f,c=trainThreshold(TestResult,345,result,b,c,f)
+        #print (b)
     print (c/769)
   
 
 def activation(result,threshold):
-    y=2
     if (result > threshold):
-        y=1
+        #print(result)
+        #print(threshold)
+        y=[1.0]
     else:
-        y=0
+        y=[0.0]
+    #print(f"Result: {result}, Threshold: {threshold}")
+    #print(y)
     return y
 
 def trainThreshold(TestResult,threshold,result,b,c,f):
-    if (activation(result,threshold)!=TestResult):
+    idk=activation(result,threshold)
+    if (idk!=TestResult):
+        #print(type(TestResult))
+        #print(f"idk: {idk}, testresult: {TestResult}")
         b=threshold-result
         f=f+1
+        #print(f)
     else:
         c=c+1
-    return b
+        #print(f)
+    return b,f,c
 
 
 
