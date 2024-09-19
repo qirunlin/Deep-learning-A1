@@ -28,6 +28,7 @@ def perceptron(data,weight,predyy,LearningRate):
     global idexNumber
     global givenResult
     global global_c
+    global predy
     b=0
     f=0
     c=0
@@ -44,11 +45,14 @@ def perceptron(data,weight,predyy,LearningRate):
         givenResult=givenResult+TestResult
         #print(result)
         if (idexNumber>0):
-       
+            #print(predyy)
+            #print(index)
             for j in range(0,8):
                 #print(predyy[index])
                 #print(givenResult)
                 #print(test)
+                #
+                
                 weight[j]=weight[j]-LearningRate*(predyy[index]-givenResult[index])*inputLayer[j]
                 b=b-LearningRate*(predyy[index]-givenResult[index])
                 #print(b)
@@ -56,13 +60,14 @@ def perceptron(data,weight,predyy,LearningRate):
 
         result=productsum(inputLayer,weight)+b
             #print(result)
-        f,c,predy=trainThreshold(TestResult,345,result,c,f)
+        f,c,newpredyy=trainThreshold(TestResult,0,result,c,f)
+    predy=[]
     idexNumber+=1
    
         
     print (global_c/798)
     global_c=0
-    return predy
+    return newpredyy
 def normalize(inputs):
     """
     Normalize the input values using Min-Max Scaling.
@@ -82,7 +87,8 @@ def normalize(inputs):
     return normalized.tolist()
 
 def activation(result,threshold):
-    if (result > threshold):
+    #print(f"idk1: {result}, result testresult1: {threshold}")
+    if (result >threshold):
         #print(result)
         #print(threshold)
         y=[1.0]
@@ -97,10 +103,13 @@ def trainThreshold(TestResult,threshold,result,c,f):
     global global_c
     global predy
     
+    
     idk=activation(result,threshold)
+    #print(f"idk: {idk}, result testresult: {threshold}")
     predy=predy+idk
     #print(predy)
     if (idk!=TestResult):
+        #print(TestResult)
         #print(type(TestResult))
         #print(f"idk: {idk}, testresult: {TestResult}")
      
@@ -112,11 +121,12 @@ def trainThreshold(TestResult,threshold,result,c,f):
     return f,c,predy
 
 def training(data,LearningRate,epoche,weight):
-    predy=[]
+    predyidk=[]
     for i in range(0,epoche):
-       predy=perceptron(data,weight,predy,LearningRate)
-       #print(predy)
-
+       #print(i)
+       #print(f"idk: {predyidk}")
+       predyidk=perceptron(data,weight,predyidk,LearningRate)
+       
      
 
 
@@ -136,6 +146,6 @@ if __name__=="__main__":
     filename='C:\\Users\\Jack\\Desktop\\Deep learning\\a1 perceptron\\diabetes.csv'
     data=readFile(filename)
     weight=np.random.rand(8)
-    training(data,0.001,10,weight)
+    training(data,0.003,100,weight)
 
     
